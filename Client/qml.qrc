@@ -1,0 +1,17 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>controls/tree/TreeEntry.qml</file>
+        <file>Title.qml</file>
+        <file>MainWindow.qml</file>
+        <file>Navigator.qml</file>
+        <file>PageWindow.qml</file>
+        <file>controls/tree/TreeDelegate.qml</file>
+        <file>controls/tree/img/navigation.png</file>
+        <file>controls/Skin.qml</file>
+        <file>pages/BoardPage.qml</file>
+        <file>StateWindow.qml</file>
+        <file>controls/Notification.qml</file>
+        <file>controls/TextControl.qml</file>
+    </qresource>
+</RCC>

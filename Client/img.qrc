@@ -1,0 +1,28 @@
+<RCC>
+    <qresource prefix="/">
+        <file>img/back2.png</file>
+        <file>img/close.png</file>
+        <file>img/close_hover.png</file>
+        <file>img/close2.png</file>
+        <file>img/max.png</file>
+        <file>img/minimize.png</file>
+        <file>img/navigation.png</file>
+        <file>img/normal.png</file>
+        <file>img/skin.png</file>
+        <file>img/board1/ba.ico</file>
+        <file>img/board1/bb.ico</file>
+        <file>img/board1/bc.ico</file>
+        <file>img/board1/bk.ico</file>
+        <file>img/board1/bn.ico</file>
+        <file>img/board1/BOARD.BMP</file>
+        <file>img/board1/bp.ico</file>
+        <file>img/board1/br.ico</file>
+        <file>img/board1/ra.ico</file>
+        <file>img/board1/rb.ico</file>
+        <file>img/board1/rc.ico</file>
+        <file>img/board1/rk.ico</file>
+        <file>img/board1/rn.ico</file>
+        <file>img/board1/rp.ico</file>
+        <file>img/board1/rr.ico</file>
+    </qresource>
+</RCC>
