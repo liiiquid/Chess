@@ -1,0 +1,291 @@
+	
+	
+	mode: depth, depth: 5               mode: depth, depth: 5
+	current side: red					current side: red
+	"b2b4 h9i7 b4i4 h7h0 i0h0 "			"b2b4 h9i7 b4i4 "
+	60959 "go b2b4"						58494 "go b2b4"
+	   (a) 搜索策略(1)                    (b) 搜索策略(2)
+	
+	
+	mode: depth, depth: 3
+	current side: red
+	"b2b9 a9b9 h2h9 "
+	129 "go b2b9"
+	mode: depth, depth: 5
+	current side: red
+	"b2b4 h9i7 b4i4 h7h0 i0h0 "
+	60959 "go b2b4"
+	mode: depth, depth: 7
+	current side: red
+	"b2e2 h9g7 b0c2 b7e7 a0b0 b9c7 e2e6 "
+	4240694 "go b2e2"
+	
+	
+	
+	
+	
+	
+"00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 "
+"00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 "
+"00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 "
+"00 00 00 39 37 35 33 32 34 36 38 40 00 00 00 00 "
+"00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 "
+"00 00 00 00 00 00 00 00 00 42 00 00 00 00 00 00 "
+"00 00 00 43 00 44 00 45 00 46 00 47 00 00 00 00 "
+"00 00 00 27 00 00 00 00 00 00 00 00 00 00 00 00 "
+"00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 "
+"00 00 00 00 00 28 00 29 00 30 00 31 00 00 00 00 "
+"00 00 00 00 25 00 00 00 00 00 26 00 00 00 00 00 "
+"00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 "
+"00 00 00 23 41 19 17 16 18 20 22 24 00 00 00 00 "
+"00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 "
+"00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 "
+"00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 "
+
+
+
+				mode: depth, depth: 3		mode: depth, depth: 3
+				current side: red			current side: red
+				nodes: 129 "go b2b9"		nodes: 129 "go b2b9"
+				mode: depth, depth: 5		mode: depth, depth: 5
+				current side: red			current side: red
+				nodes: 61465 "go b2b4"		nodes: 60959 "go b2b4"
+	 			mode: depth, depth: 7  		mode: depth, depth: 7
+				current side: red  			current side: red
+	            nodes: 6496836 "go b2e2"    nodes: 4240694 "go b2e2"		
+				 (a) Alpha-Beta剪枝				(b) PVS
+				 
+				 
+				 
+				mode: depth, depth: 7                                     mode: depth, depth: 7
+				current side: red										  current side: red
+				"h2e2 b9c7 h0g2 h7e7 i0h0 h9g7 e2e6 "					  "b2e2 h9g7 b0c2 b7e7 a0b0 b9c7 e2e6 "
+				nodes: 2039601 "go h2e2"								  nodes: 4240694 "go b2e2"
+				mode: depth, depth: 8					
+				current side: red
+				"b0c2 b9c7 a0a1 a9a8 h0g2 a8d8 d0e1 h9g7 "
+				nodes: 9109771 "go b0c2"
+				
+					(a) TT + PVS
+
+
+	mode: depth, depth: 3
+	current side: red
+	"b2b9 a9b9 h2h9 "
+	nodes: 129 "go b2b9"
+	mode: depth, depth: 5
+	current side: red
+	"b2b4 h9i7 b4i4 h7h0 i0h0 "
+	nodes: 36057 "go b2b4"
+	mode: depth, depth: 7
+	current side: red
+	"h2e2 b9c7 h0g2 h7e7 i0h0 h9g7 e2e6 "
+	nodes: 1328790 "go h2e2
+		(a) ID + TT + PVS
+		
+		mode: depth, depth: 7
+		collide/total: "794414/13511949"
+		nodes: 1994388 "go h2e2"
+		
+	mode: depth, depth: 7
+	current side: red
+	"h2e2 b9c7 h0g2 h7e7 i0h0 h9g7 e2e6 "
+	collide/total: "794414/13511949"
+	nodes: 1994388 "go h2e2"
+	mode: depth, depth: 7
+	current side: red
+	"h2e2 b9c7 h0g2 h7e7 i0h0 h9g7 e2e6 "
+	collide/total: "2417/19584"
+	nodes: 1648 "go h2e2"
+	mode: depth, depth: 7
+	current side: red
+	"h2e2 b9c7 h0g2 h7e7 i0h0 h9g7 e2e6 "
+	collide/total: "2411/19502"
+	nodes: 1607 "go h2e2"
+	mode: depth, depth: 7
+	current side: red
+	"h2e2 b9c7 h0g2 h7e7 i0h0 h9g7 e2e6 "
+	collide/total: "2411/19502"
+	nodes: 1607 "go h2e2"
+	mode: depth, depth: 7
+	current side: red
+	"h2e2 b9c7 h0g2 h7e7 i0h0 h9g7 e2e6 "
+	collide/total: "2411/19502"
+	nodes: 1607 "go h2e2"
+	
+	mode: depth, depth: 7
+	collide/total: "408360/13506157"
+	nodes: 1983648 "go h2e2"
+	
+	mode: depth, depth: 5
+	"b2b4 h9i7 b4i4 h7h0 i0h0 "
+	nodes: 12361 "go b2b4"
+	mode: depth, depth: 7
+	"b2e2 b9a7 b0c2 h9g7 a0b0 b7e7 e2e6 "
+	nodes: 326104 "go b2e2"
+	
+	
+	mode: depth, depth: 7
+	current side: red
+	"b2e2 h9g7 b0c2 b7e7 a0b0 b9c7 e2e6 "
+	collide/total: "24574/2804713"
+	nodes: 312241 "go b2e2"
+	mode: depth, depth: 8
+	current side: red
+	"h0g2 h9i7 i0i1 "
+	collide/total: "668043/15272785"
+	nodes: 2131765 "go h0g2"
+	mode: depth, depth: 9
+	current side: red
+	"b2e2 b7e7 b0c2 b9c7 a0b0 a9a8 h0g2 h9g7 e2e6 "
+	collide/total: "16579352/78054541"
+	nodes: 8974394 "go b2e2"
+	PVS + TT + KMH + HH + ID
+	
+	
+	mode: depth, depth: 7
+	current side: red
+	"h2e2 c6c5 h0g2 h9i7 e2e6 b9c7 i0h0 "
+	collide/total: "42225/3318098"
+	nodes: 420559 "go h2e2"
+	mode: depth, depth: 8
+	current side: red
+	"h0g2 h9g7 g3g4 "
+	collide/total: "256215/9795196"
+	nodes: 1128296 "go h0g2"
+	mode: depth, depth: 9
+	current side: red
+	"b2e2 b9a7 b0c2 h9g7 a0b0 i9i8 h0g2 b7e7 e2e6 "
+	collide/total: "28294157/97070005"
+	nodes: 12701429 "go b2e2"
+	PVS + TT + KMH + HH
+	
+	mode: depth, depth: 8
+	current side: red
+	"b0a2 b9c7 b2c2 a9b9 a0b0 h9g7 h0g2 i9h9 "
+	collide/total: "833523/17254801"
+	nodes: 2255188 "go b0a2"
+	mode: depth, depth: 9
+	current side: red
+	"b2e2 h9g7 b0c2 b9a7 a0b0 a9a8 h0g2 b7e7 e2e6 "
+	collide/total: "15296435/75372382"
+	nodes: 8349396 "go b2e2"
+	
+	PVS + TT + KMH + HH + ID + IID
+	
+	mode: depth, depth: 7                        mode: depth, depth: 7
+	current side: red                  
+	"h2e2 b9c7 h0g2 h7e7 i0h0 h9g7 e2e6 " 
+	collide/total: "783894/13915516"
+	nodes: 2026595 "go h2e2"
+	PVS + TT24
+	
+	mode: depth, depth: 7							mode: depth, depth: 7       				
+	current side: red								current side: red
+	"h2e2 b9c7 h0g2 h7e7 i0h0 h9g7 e2e6 "			"h2e2 b9c7 h0g2 h7e7 i0h0 h9g7 e2e6 "
+	collide/total: "397405/13927785"				collide/total: "204920/13894620"
+	nodes: 2026059 "go h2e2"						nodes: 2019458 "go h2e2"
+	mode: depth, depth: 8							mode: depth, depth: 8
+	current side: red								current side: red
+	"b0a2 h9g7 h2e2 i9h9 h0g2 b9c7 i0h0 a9b9 "		"b0a2 h9g7 h2e2 i9h9 h0g2 b9c7 i0h0 a9b9 "
+	collide/total: "5768958/56639038"				collide/total: "2829093/54835001"
+	nodes: 7819300 "go b0a2"						nodes: 7601820 "go b0a2"
+	    (a) PVS + TT25									(b) PVS + TT26
+	
+	mode: depth, depth: 7                                                             
+	current side: red
+	"h2e2 b9c7 h0g2 h7e7 i0h0 h9g7 e2e6 "
+	collide/total: "204920/13894620"
+	nodes: 2019458 "go h2e2"
+	mode: depth, depth: 8
+	current side: red
+	"b0a2 h9g7 h2e2 i9h9 h0g2 b9c7 i0h0 a9b9 "
+	collide/total: "2829093/54835001"	
+	nodes: 7601820 "go b0a2"
+	PVS + TT26
+	
+    collide/total: "397405/13927785"	collide/total: "204920/13894620"
+	collide/total: "5768958/56639038"	collide/total: "2829093/54835001"
+			(a) TT25							(b) TT26
+			
+			
+			
+	mode: depth, depth: 7
+	current side: red
+	"b2e2 h9g7 b0c2 b7e7 a0b0 b9c7 e2e6 "
+	collide/total: "1301/1857490"
+	nodes: 215284 "go b2e2"
+	mode: depth, depth: 9
+	current side: red
+	"h0i2 b9c7 i0i1 a9a8 i1f1 a8d8 b0c2 h9g7 f1f9 "
+	collide/total: "123954/17398036"
+	nodes: 2101460 "go h0i2"
+	
+	PVS + TT + KMH + HH + ID + IID + NMH
+	
+	
+	mode: depth, depth: 7
+	current side: red
+	"h0g2 b9c7 i0i1 h9g7 i1f1 "
+	collide/total: "99/297122"
+	nodes: 20638 "go h0g2"
+	mode: depth, depth: 9
+	current side: red
+	"b0c2 b7e7 h0g2 b9c7 a0b0 h9g7 b2b6 "
+	collide/total: "40195/7589363"
+	nodes: 507789 "go b0c2"
+	
+	PVS + TT + KMH + HH + ID + IID + NMH
+	
+	
+	mode: depth, depth: 7
+	current side: red
+	"b0c2 g6g5 a0a2 "
+	collide/total: "28/147703"
+	maxDepth: 19
+	nodes: 373847 "go b0c2"
+	
+	PVS + TT + KMH + HH + ID + IID + NMH + QS
+
+
+
+position P2k5/9/9/9/p5b2/9/4p4/1r1A1K3/2cc5/9 b
+position 3k5/9/9/9/p5b2/9/4p4/1r1A1K3/2cc5/9 b
+
+
+	current side: black
+	"i9h9 e0d0 a8d8 "
+	collide/total: "4/106012"
+	maxDepth: 27
+	nodes: 476729 "go i9h9"
+	mode: depth, depth: 7
+	current side: black
+	"g6g5 e1f2 g7f5 h0h4 "
+	collide/total: "44/157933"
+	maxDepth: 64
+	nodes: 2324854 "go g6g5"
+	
+	
+	position 1R4b2/2P1a2R1/3kba3/9/9/9/9/6n2/1r5r1/4K1p2 r
+	
+	position 3ak4/4c4/4bP3/1R3N3/2b6/3nC1p2/9/9/2r1r4/3K5 r
+	position r1b1ka3/4a4/2n1b4/2p1p3p/p8/4C4/P1PrP3P/N6RN/4A4/2B1KR3 b
+
+
+mode: depth, depth: 7
+current side: black
+black resign
+"AverageNode: 21941, TotalNode:109709, TotalSteps:5"
+
+position 3ak1b2/4a4/2n1b4/p3cR3/9/4C3P/P2r1N3/4B1C2/4A4/2B1K4 b
+
+	AverageNode: 2486184 TotalNode: 69613166  CurrentCount: 28	(业2-3)
+	AverageNode: 1329536 TotalNode: 41215630  CurrentCount: 31  (业3-1)
+	AverageNode: 2551593 TotalNode: 30619121  CurrentCount: 12	(业2-1)
+	AverageNode: 751600  TotalNode: 19541600  CurrentCount: 26	(业2-2)
+	AverageNode: 1796502 TotalNode: 113179631 CurrentCount: 63  (业4-3)
+	AverageNode: 9043340 TotalNode: 153736788 CurrentCount: 17  (业3-1)
+	AverageNode: 2157938 TotalNode: 43158775  CurrentCount: 20	(业2-2)
+
+
+
