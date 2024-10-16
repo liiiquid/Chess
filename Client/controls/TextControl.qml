@@ -5,7 +5,7 @@ Rectangle{
 
     color:"#fe25ffc0"
     implicitWidth: edit.contentWidth + 10
-    implicitHeight: 50
+    implicitHeight: edit.contentHeight + 10
 
     TextEdit{
         id:edit

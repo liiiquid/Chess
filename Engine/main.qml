@@ -6,7 +6,7 @@ import QtQuick.Particles 2.0
 import Qt.Singleton 0.0
 Window {
     id:_root
-    width: 900
+    width: 1200
     height: 700
     visible: true
     title: qsTr("Hello World")
@@ -63,36 +63,68 @@ Window {
                 Layout.fillHeight: true
                 Button{
                     text:Server.start ? "close" : "start"
-                    Layout.preferredHeight: 100
-                    Layout.preferredWidth: 100
                     onClicked: Server.start ? Server.close() : Server.init()
                 }
-                Button{
-                    text:"print"
-                    Layout.preferredHeight: 100
-                    Layout.preferredWidth: 100
-                    onClicked: Server.print();
-                }
-                Button{
-                    text:"printBitRow"
-                    Layout.preferredHeight: 100
-                    Layout.preferredWidth: 100
-                    onClicked: Server.printBitBoardRow();
+
+                RowLayout{
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+                    Button{
+                        text:"print"
+                        onClicked: Server.print();
+                    }
+
                 }
 
-                Button{
-                    text:"printBitCol"
-                    Layout.preferredHeight: 100
-                    Layout.preferredWidth: 100
-                    onClicked: Server.printBitBoardCol();
+                RowLayout{
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+                    Button{
+                        text:"BitRow"
+                        onClicked: Server.printBitBoardRow();
+                    }
+
+                    Button{
+                        text:"BitCol"
+                        onClicked: Server.printBitBoardCol();
+                    }
+
+                    Button{
+                        text:"BitPiece"
+                        onClicked: Server.printBitPiece();
+                    }
                 }
 
-                Button{
-                    text:"printBitPiece"
-                    Layout.preferredHeight: 100
-                    Layout.preferredWidth: 100
-                    onClicked: Server.printBitPiece();
+                RowLayout{
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+
+                    Button{
+                        text: "material";
+                        onClicked: Server.printMaterial();
+                    }
+
+                    Button{
+                        text: "AP";
+                        onClicked: Server.printAp();
+                    }
+
+                    Button{
+                        text: "Sh";
+                        onClicked: Server.printSh();
+                    }
+
+                    Button{
+                        text: "KT";
+                        onClicked: Server.printKT();
+                    }
+
+                    Button{
+                        text: "Rm";
+                        onClicked: Server.printRm();
+                    }
                 }
+
 
                 Item{
                     Layout.fillWidth: true

@@ -58,20 +58,14 @@ Item {
                     Layout.fillWidth: true
                     Button{
                         text: "undo"
-                        implicitWidth: 100
-                        implicitHeight: 100
                         onClicked: _board.undoMakeMove()
                     }
                     Button{
                         text: "mirror_k=1"
-                        implicitWidth: 100
-                        implicitHeight: 100
                         onClicked: _board.mirror_k1()
                     }
                     Button{
                         text: "print"
-                        implicitWidth: 100
-                        implicitHeight: 100
                         onClicked: _board.print()
                     }
                 }
@@ -80,8 +74,6 @@ Item {
                     Layout.fillWidth: true
                     Button{
                         text: "ucci"
-                        implicitWidth: 100
-                        implicitHeight: 100
                         onClicked: function va(){
                             _board.ucci()
                             _goBtn.enabled = true;
@@ -89,14 +81,10 @@ Item {
                     }
                     Button{
                         text: "isready"
-                        implicitWidth: 100
-                        implicitHeight: 100
                         onClicked: _board.isready()
                     }
                     Button{
                         text:"startpos"
-                        implicitWidth: 100
-                        implicitHeight: 100
                         onClicked: _board.startpos()
                     }
                 }
@@ -105,8 +93,6 @@ Item {
                     Layout.fillWidth: true
                     Button{
                         text: "position"
-                        implicitWidth: 100
-                        implicitHeight: 100
                         onClicked: _board.position(posEdit.text)
                     }
 
@@ -133,15 +119,11 @@ Item {
                     Layout.fillWidth: true
                     Button{
                         text: "getpos"
-                        implicitWidth: 100
-                        implicitHeight: 100
                         onClicked: _board.getpos()
                     }
 
                     Button{
                         text: "setpos"
-                        implicitWidth: 100
-                        implicitHeight: 100
                         onClicked: _board.setpos()
                     }
 
@@ -153,23 +135,15 @@ Item {
                     Button{
                         text: "go"
                         id: _goBtn;
-                        implicitWidth: 100
-                        implicitHeight: 100
                         onClicked: {
                             _board.go(gomodeedit.text);
                             _goBtn.enabled = false;
                         }
                     }
 
-                    Rectangle{
-                        color:"#fe25ffc0"
-                        implicitWidth: 100
-                        implicitHeight: 50
-                        TextEdit{
-                            id: gomodeedit
-                            text:"go depth 3"
-                            selectByMouse: true
-                        }
+                    TextControl{
+                        id: gomodeedit
+                        text: "go depth 3"
                     }
                 }
 
@@ -177,21 +151,23 @@ Item {
                     Layout.fillWidth: true
                     Button{
                         text: "protect"
-                        implicitWidth: 100
-                        implicitHeight: 100
                         onClicked: {
                             _board.protect(protectedit.text)
                         }
                     }
 
-                    Rectangle{
-                        color:"#fe25ffc0"
-                        implicitWidth: 100
-                        implicitHeight: 50
-                        TextInput{
-                            id: protectedit
-                            text:"1 b9"
-                            selectByMouse: true
+                    TextControl{
+                        id: protectedit
+                        text: "1 b9"
+                    }
+                }
+
+                RowLayout{
+                    Layout.fillWidth: true
+                    Button{
+                        text: "recover"
+                        onClicked: {
+                            _goBtn.enabled = true;
                         }
                     }
                 }

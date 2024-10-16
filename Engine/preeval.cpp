@@ -336,6 +336,8 @@ void Position::preEvaluate()
 
     //qDebug() << h << x << y << attacks[0] << attacks[1];
 
+    QString redCentralThreat1 = "";
+    QString blCentralThreat1 = "";
     preEval.valRedAdvisorLeakage = AdvisorLeakage * y / Y;
     preEval.valBlackAdvisorLeakage = AdvisorLeakage * x / Y;
     for(i = 0; i < 16; i++)
@@ -343,11 +345,15 @@ void Position::preEvaluate()
         preEval.valueRedHollowThreat[i] = HollowThreat[i] * h / H;
         preEval.valueBlackHollowThreat[0xf - i] = HollowThreat[i] * h / H;
 
-        preEval.valueRedCentralThreat[i] = CentralThreat[i] * x / Y;
-        preEval.valueBlackCentralThreat[0xf - i] = CentralThreat[i] * y / Y;
+        preEval.valueRedCentralThreat[i] = CentralThreat[i] * h / H;
+        preEval.valueBlackCentralThreat[0xf - i] = CentralThreat[i] * h / H;
 
-        preEval.valRedBottomThreat[i] = BottomThreat[i] * x / Y;
-        preEval.valBlackBottomThreat[0xe - i] = BottomThreat[i] * y / Y;
+        preEval.valRedBottomThreat[i] = BottomThreat[i] * h / H;
+        preEval.valBlackBottomThreat[0xe - i] = BottomThreat[i] * h / H;
+
+        redCentralThreat1 += QString::number(preEval.valueRedCentralThreat[i]) + " ";
+        blCentralThreat1 += QString::number(preEval.valueBlackCentralThreat[0xf - i]) + " ";
+
     }
 
     for( i = 0; i < 255; i++ )
@@ -384,7 +390,7 @@ void Position::preEvaluate()
         this->vlBlack += preEval.valueBlack[PIECE_TYPE(i)][pieces[i]];
     }
 
-    //qDebug() << this->vlRed << this->vlBlack;
+    qDebug() << this->vlRed << this->vlBlack;
 
 
 }

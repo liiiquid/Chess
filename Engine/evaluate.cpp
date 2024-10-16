@@ -31,6 +31,7 @@ int Position::advisorShape()
     oppSideTag = SIDE_TAG(1);
     kingPos = pieces[sideTag + KING_FROM];
 
+    // 计算红方士形罚分
     if( ( bitPiece[0] & BIT_ADVISOR ) == BIT_ADVISOR )
     {
         if( kingPos == 0xc7 )
@@ -134,6 +135,7 @@ int Position::advisorShape()
     oppSideTag = SIDE_TAG(0);
     kingPos = pieces[sideTag + KING_FROM];
 
+    // 计算黑方士形罚分
     if( ( bitPiece[0] & BIT_ADVISOR ) == BIT_ADVISOR )
     {
         if( kingPos == 0x37 )
@@ -166,13 +168,13 @@ int Position::advisorShape()
                     {
                         if( (vertic->rookCap & PreGen.PieceMask_row[kingPos]) != 0 )
                         {
-                            rp += preEval.valueRedHollowThreat[GET_ROW(oppPos)];
+                            bp += preEval.valueRedHollowThreat[GET_ROW(oppPos)];
                         }
                         else if( (vertic->superCannonCap & PreGen.PieceMask_row[kingPos] ) != 0 )
                         {
                             if( board[0x47] == sideTag + KNIGHT_FROM || board[0x47] == sideTag + KNIGHT_TO )
                             {
-                                rp += preEval.valueRedCentralThreat[GET_ROW(oppPos)];
+                                bp += preEval.valueRedCentralThreat[GET_ROW(oppPos)];
                             }
                         }
                     }
@@ -191,8 +193,8 @@ int Position::advisorShape()
                     {
                         if( (vertic->superCannonCap & PreGen.PieceMask_row[kingPos] ) != 0 )
                         {
-                            rp += ( preEval.valueRedCentralThreat[GET_ROW(oppPos)] >> 2 )
-                            + (protectedBy(1, (shape == SHAPE_LEFT ? 0x38 : 0x36) ) ? 20 : 0);
+                            bp += ( preEval.valueRedCentralThreat[GET_ROW(oppPos)] >> 2 )
+                            + (protectedBy(0, (shape == SHAPE_LEFT ? 0x38 : 0x36) ) ? 20 : 0);
                             for( j =  sideTag + ROOK_FROM; j <= sideTag + ROOK_TO; j++)
                             {
                                 pos = pieces[j];
@@ -203,7 +205,7 @@ int Position::advisorShape()
                                     {
                                         if( (h->rookCap & PreGen.PieceMask_col[kingPos]) != 0 )
                                         {
-                                            rp += 80;
+                                            bp += 80;
                                         }
                                     }
                                 }
@@ -214,7 +216,7 @@ int Position::advisorShape()
                         const auto& horiz = HorizonMaskPtr(oppPos);
                         if( (horiz->rookCap & PreGen.PieceMask_col[kingPos] ) != 0 )
                         {
-                            rp += preEval.valRedBottomThreat[ GET_COL(oppPos) ];
+                            bp += preEval.valRedBottomThreat[ GET_COL(oppPos) ];
                         }
                     }
                 }
@@ -222,13 +224,13 @@ int Position::advisorShape()
             }
         }else if( kingPos == 0x47 )
         {
-            rp += PENALTY_CENTER_KING;
+            bp += PENALTY_CENTER_KING;
         }
     }else
     {
         if( ( bitPiece[0] & BIT_ROOK ) == BIT_ROOK )
         {
-            rp += preEval.valBlackAdvisorLeakage;
+            bp += preEval.valBlackAdvisorLeakage;
         }
     }
 
@@ -362,19 +364,60 @@ int Position::stringHold()
         int oppSideTag = SIDE_TAG(OPP_SIDE(i));
 
         kingPos = pieces[sideTag + KING_FROM];
+
+        // 对方棋子牵制己方将
         for( oppPc = oppSideTag + ROOK_FROM; oppPc <= oppSideTag + ROOK_TO; oppPc++ )
         {
             oppPos = pieces[oppPc];
             if(oppPos == 0) continue;
-            if(oppPos != 0)
+            const auto& vertic = VerticMovePtr(oppPos);
+            const auto& horiz = HorizonMovePtr(oppPos);
+            if( GET_COL(oppPos) == GET_COL(kingPos) )
             {
+                int dir = oppPos > kingPos ? 0 : 1;
+                if( vertic->cannonCap[dir] == GET_ROW(kingPos) )
+                {
+                    int tarPos = COORD_XY(vertic->rookCap[dir], GET_COL(oppPos));
+                    int tarPc = board[tarPos];
+                    if( tarPc != 0 && !SAME_SIDE(tarPc, oppPc) && !protectedBy(i, tarPos) )
+                    {
+                        penalty[i] += StringHold[ tarPos - oppPos + 256 ];
+                    }
+                }
+
+
+            }else if(GET_ROW(oppPos) == GET_ROW(kingPos))
+            {
+                int dir = oppPos > kingPos ? 0 : 1;
+                if( horiz->cannonCap[dir] == GET_COL(kingPos) )
+                {
+                    int tarPos = COORD_XY(GET_ROW(oppPos), horiz->rookCap[dir]);
+                    int tarPc = board[tarPos];
+                    if( tarPc != 0 && !SAME_SIDE(tarPc, oppPc) && !protectedBy(i, tarPos) )
+                    {
+                        penalty[i] += StringHold[ tarPos - oppPos + 256 ];
+                    }
+                }
+            }
+        }
+
+        // 对方车牵制己方车
+        for( pc = sideTag + ROOK_FROM; pc <= sideTag + ROOK_TO; pc++ )
+        {
+            pos = pieces[pc];
+            if(pos == 0 ) continue;
+
+            for( oppPc = oppSideTag + ROOK_FROM; oppPc <= oppSideTag + ROOK_TO; oppPc++ )
+            {
+                oppPos = pieces[oppPc];
+                if(oppPos == 0) continue;
                 const auto& vertic = VerticMovePtr(oppPos);
                 const auto& horiz = HorizonMovePtr(oppPos);
 
-                if( GET_COL(oppPos) == GET_COL(kingPos) )
+                if( GET_COL(oppPos) == GET_COL(pos) )
                 {
-                    int dir = oppPos > kingPos ? 0 : 1;
-                    if( vertic->cannonCap[dir] == GET_ROW(kingPos) )
+                    int dir = oppPos > pos ? 0 : 1;
+                    if( vertic->cannonCap[dir] == GET_ROW(pos) )
                     {
                         int tarPos = COORD_XY(vertic->rookCap[dir], GET_COL(oppPos));
                         int tarPc = board[tarPos];
@@ -383,12 +426,10 @@ int Position::stringHold()
                             penalty[i] += StringHold[ tarPos - oppPos + 256 ];
                         }
                     }
-
-
-                }else if(GET_ROW(oppPos) == GET_ROW(kingPos))
+                }else if(GET_ROW(oppPos) == GET_ROW(pos))
                 {
-                    int dir = oppPos > kingPos ? 0 : 1;
-                    if( horiz->cannonCap[dir] == GET_COL(kingPos) )
+                    int dir = oppPos > pos ? 0 : 1;
+                    if( horiz->cannonCap[dir] == GET_COL(pos) )
                     {
                         int tarPos = COORD_XY(GET_ROW(oppPos), horiz->rookCap[dir]);
                         int tarPc = board[tarPos];
@@ -401,87 +442,43 @@ int Position::stringHold()
             }
         }
 
-        for( pc = sideTag + ROOK_FROM; i <= sideTag + ROOK_TO; i++ )
-        {
-            pos = pieces[pc];
-            if(pos == 0 ) continue;
-
-            for( oppPc = oppSideTag + ROOK_FROM; oppPc <= oppSideTag + ROOK_TO; oppPc++ )
-            {
-                oppPos = pieces[oppPc];
-                if(oppPos == 0) continue;
-                if(oppPos != 0)
-                {
-                    const auto& vertic = VerticMovePtr(oppPos);
-                    const auto& horiz = HorizonMovePtr(oppPos);
-
-                    if( GET_COL(oppPos) == GET_COL(pos) )
-                    {
-                        int dir = oppPos > pos ? 0 : 1;
-                        if( vertic->cannonCap[dir] == GET_ROW(pos) )
-                        {
-                            int tarPos = COORD_XY(vertic->rookCap[dir], GET_COL(oppPos));
-                            int tarPc = board[tarPos];
-                            if( tarPc != 0 && !SAME_SIDE(tarPc, oppPc) && !protectedBy(i, tarPos) )
-                            {
-                                penalty[i] += StringHold[ tarPos - oppPos + 256 ];
-                            }
-                        }
-                    }else if(GET_ROW(oppPos) == GET_ROW(pos))
-                    {
-                        int dir = oppPos > pos ? 0 : 1;
-                        if( horiz->cannonCap[dir] == GET_COL(pos) )
-                        {
-                            int tarPos = COORD_XY(GET_ROW(oppPos), horiz->rookCap[dir]);
-                            int tarPc = board[tarPos];
-                            if( tarPc != 0 && !SAME_SIDE(tarPc, oppPc) && !protectedBy(i, tarPos) )
-                            {
-                                penalty[i] += StringHold[ tarPos - oppPos + 256 ];
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
+        // 对方炮牵制己方将
         for( oppPc = oppSideTag + CANNON_FROM; oppPc <= oppSideTag + CANNON_TO; oppPc++ )
         {
             oppPos = pieces[oppPc];
             if(oppPos == 0) continue;
-            if(oppPos != 0)
-            {
-                const auto& vertic = VerticMovePtr(oppPos);
-                const auto& horiz = HorizonMovePtr(oppPos);
+            const auto& vertic = VerticMovePtr(oppPos);
+            const auto& horiz = HorizonMovePtr(oppPos);
 
-                if( GET_COL(oppPos) == GET_COL(kingPos) )
+            if( GET_COL(oppPos) == GET_COL(kingPos) )
+            {
+                int dir = oppPos > kingPos ? 0 : 1;
+                if( vertic->superCannonCap[dir] == GET_ROW(kingPos) )
                 {
-                    int dir = oppPos > kingPos ? 0 : 1;
-                    if( vertic->superCannonCap[dir] == GET_ROW(kingPos) )
+                    int tarPos = COORD_XY(vertic->cannonCap[dir], GET_COL(oppPos));
+                    int tarPc = board[tarPos];
+                    if( tarPc != 0 && !SAME_SIDE(tarPc, oppPc) && !protectedBy(i, tarPos) )
                     {
-                        int tarPos = COORD_XY(vertic->cannonCap[dir], GET_COL(oppPos));
-                        int tarPc = board[tarPos];
-                        if( tarPc != 0 && !SAME_SIDE(tarPc, oppPc) && !protectedBy(i, tarPos) )
-                        {
-                            penalty[i] += StringHold[ tarPos - oppPos + 256 ];
-                        }
+                        penalty[i] += StringHold[ tarPos - oppPos + 256 ];
                     }
-                }else if(GET_ROW(oppPos) == GET_ROW(kingPos))
+                }
+            }else if(GET_ROW(oppPos) == GET_ROW(kingPos))
+            {
+                int dir = oppPos > kingPos ? 0 : 1;
+                if( horiz->superCannonCap[dir] == GET_COL(kingPos) )
                 {
-                    int dir = oppPos > kingPos ? 0 : 1;
-                    if( horiz->superCannonCap[dir] == GET_COL(kingPos) )
+                    int tarPos = COORD_XY(GET_ROW(oppPos), horiz->cannonCap[dir]);
+                    int tarPc = board[tarPos];
+                    if( tarPc != 0 && !SAME_SIDE(tarPc, oppPc) && !protectedBy(i, tarPos) )
                     {
-                        int tarPos = COORD_XY(GET_ROW(oppPos), horiz->cannonCap[dir]);
-                        int tarPc = board[tarPos];
-                        if( tarPc != 0 && !SAME_SIDE(tarPc, oppPc) && !protectedBy(i, tarPos) )
-                        {
-                            penalty[i] += StringHold[ tarPos - oppPos + 256 ];
-                        }
+                        penalty[i] += StringHold[ tarPos - oppPos + 256 ];
                     }
                 }
             }
         }
 
-        for( pc = sideTag + ROOK_FROM; i <= sideTag + ROOK_TO; i++ )
+        // 对方炮牵制己方车
+        for( pc = sideTag + ROOK_FROM; pc <= sideTag + ROOK_TO; pc++ )
         {
             pos = pieces[pc];
             if(pos == 0 ) continue;
@@ -527,6 +524,7 @@ int Position::stringHold()
 
     return SIDE_VALUE(side, penalty[1] - penalty[0]);
 
+
 }
 
 int Position::rookMobility()
@@ -553,13 +551,13 @@ int Position::rookMobility()
             bounce[i] += (GET_ROW(pos) - vertic->nonCap[0]) + (vertic->nonCap[1] - GET_ROW(pos));
         }
     }
+
     return SIDE_VALUE(side, bounce[0] - bounce[1]);
 }
 
 int Position::evaluate(int alpha, int beta)
 {
     int ret = material();
-
     if(ret + AS_GAP <= alpha)
     {
         return ret + AS_GAP;
@@ -570,7 +568,6 @@ int Position::evaluate(int alpha, int beta)
     }
 
     ret += advisorShape();
-
     if(ret + SH_GAP <= alpha)
     {
         return ret + SH_GAP;

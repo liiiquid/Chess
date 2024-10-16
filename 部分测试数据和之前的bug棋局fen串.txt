@@ -289,3 +289,6 @@ position 3ak1b2/4a4/2n1b4/p3cR3/9/4C3P/P2r1N3/4B1C2/4A4/2B1K4 b
 
 
 
+position 1nbakab2/3r5/r5nc1/p1p1p3p/6p2/9/P1P1N1P1P/2N1C4/R6R1/2BAKAB2 b
+
+position rnbakabn1/3r5/7c1/p1p1C3p/6p2/9/P1P1P1P1P/1c2C1N2/9/RNBAKABR1 b

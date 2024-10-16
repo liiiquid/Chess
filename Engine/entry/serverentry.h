@@ -37,6 +37,11 @@ public:
     Q_INVOKABLE void printBitBoardRow();
     Q_INVOKABLE void printBitBoardCol();
     Q_INVOKABLE void printBitPiece() {pos.printBitPiece();}
+    Q_INVOKABLE void printMaterial() {pos.preEvaluate();qDebug() << pos.material();}
+    Q_INVOKABLE void printAp(){pos.preEvaluate();qDebug() << pos.advisorShape();}
+    Q_INVOKABLE void printSh(){pos.preEvaluate();qDebug() << pos.stringHold();}
+    Q_INVOKABLE void printKT(){pos.preEvaluate();qDebug() << pos.knightTrap();}
+    Q_INVOKABLE void printRm(){pos.preEvaluate();qDebug() << pos.rookMobility();}
     void updateState();
 public slots:
     void handleCmd(const QString& cmd);
