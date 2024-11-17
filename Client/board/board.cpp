@@ -425,15 +425,15 @@ void Board::paint(QPainter *p)
 
 void Board::paintBackground(QPainter *p)
 {
-    p->drawPixmap(1, 1, imgBoard->width(), imgBoard->height(), *imgBoard);
-    p->setPen(QColor(255, 0, 0));
-    int row_top = 37;
-    int col_left = 37;
-    int interval = 56;
-    int i;
-    int w = imgBoard->width();
-    int h = imgBoard->height();
-    int x, y;
+    p->drawPixmap(0, 0, imgBoard->width(), imgBoard->height(), *imgBoard);
+    // p->setPen(QColor(255, 0, 0));
+    // int row_top = 37;
+    // int col_left = 37;
+    // int interval = 56;
+    // int i;
+    // int w = imgBoard->width();
+    // int h = imgBoard->height();
+    // int x, y;
     // for( i = 0; i < 9; i++)
     // {
     //     x = col_left + i * interval;
@@ -448,25 +448,25 @@ void Board::paintBackground(QPainter *p)
     //     p->drawLine(QLine( QPoint(x, y), QPoint(x + w, y)));
     // }
 
-    const QString col[] = {"a", "b", "c", "d", "e", "f", "g", "h", "i"};
-    for(i = 0; i < 9; i++)
-    {
-        x = col_left + i * interval - 5;
-        y = row_top - 20;
-        p->drawText(QPoint(x, y), col[i]);
-        y = h + 30;
-        p->drawText(QPoint(x, y), col[i]);
-    }
+    // const QString col[] = {"a", "b", "c", "d", "e", "f", "g", "h", "i"};
+    // for(i = 0; i < 9; i++)
+    // {
+    //     x = col_left + i * interval - 5;
+    //     y = 0;
+    //     p->drawText(QPoint(x, y), col[i]);
+    //     y = h + 15;
+    //     p->drawText(QPoint(x, y), col[i]);
+    // }
 
-    const QString row[] = {"9", "8", "7", "6", "5", "4", "3", "2", "1", "0"};
-    for(i = 0; i < 10; i++)
-    {
-        x = col_left - 20;
-        y = row_top + i * interval + 5;
-        p->drawText(QPoint(x, y), row[i]);
-        x = w +10;
-        p->drawText(QPoint(x, y), row[i]);
-    }
+    // const QString row[] = {"9", "8", "7", "6", "5", "4", "3", "2", "1", "0"};
+    // for(i = 0; i < 10; i++)
+    // {
+    //     x = 0;
+    //     y = row_top + i * interval + 5;
+    //     p->drawText(QPoint(x, y), row[i]);
+    //     x = w +10;
+    //     p->drawText(QPoint(x, y), row[i]);
+    // }
 }
 
 bool Board::eventFilter(QObject *watched, QEvent *event)

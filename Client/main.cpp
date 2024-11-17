@@ -21,6 +21,8 @@ int main(int argc, char *argv[])
     QQmlApplicationEngine engine;
     qmlRegisterType<Frameless>("Qt.Window", 0, 0, "Frameless");
     qmlRegisterType<Board>("Qt.Window", 0, 0, "Board");
+    qmlRegisterType<VerticalRuler>("Qt.Auxiliary", 0, 0, "VerticalRuler");
+    qmlRegisterType<HorizonRuler>("Qt.Auxiliary", 0, 0, "HorizonRuler");
     qmlRegisterSingletonType(QUrl("qrc:/controls/Skin.qml"), "Qt.Singleton", 0, 0, "Skin");
 
     const QUrl url(QStringLiteral("qrc:/main.qml"));

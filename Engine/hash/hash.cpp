@@ -33,7 +33,10 @@ void Hash::clear()
     {
         qDebug() << "clear(): _nodes == nullptr";
     }
+
     collideCount = 0;
+    recordCount = 0;
+    probeCount = 0;
 }
 
 void Hash::record( Position &pos, int val, int mv, int depth)

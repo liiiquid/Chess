@@ -5,6 +5,7 @@
 #include <QQuickPaintedItem.h>
 #include <qimage.h>
 #include <QPixmap>
+#include <QPainter>
 #include "tcpsocket.h"
 #include "piece.h"
 #include "marka.h"
@@ -19,6 +20,60 @@ typedef enum{
     Selectable,
     CheckSelectPiece,
 }BoardState;
+
+class VerticalRuler : public QQuickPaintedItem{
+    Q_OBJECT
+public:
+
+    explicit VerticalRuler(QQuickItem *parent = nullptr)
+        : QQuickPaintedItem{parent}
+    {
+    }
+
+    void paint(QPainter* p) override
+    {
+        p->setPen(QColor(255, 0, 0));
+        p->drawRect(QRect(0, 0, width() - 1, height() - 1));
+        int row_top = 42;
+        int interval = 56;
+        int i;
+        int x, y;
+        const QString row[] = {"9", "8", "7", "6", "5", "4", "3", "2", "1", "0"};
+        for(i = 0; i < 10; i++)
+        {
+            x = width() / 2 - 2;
+            y = row_top + i * interval;
+            p->drawText( QPoint(x, y), row[i]);
+        }
+    }
+};
+
+class HorizonRuler : public QQuickPaintedItem{
+    Q_OBJECT
+public:
+
+    explicit HorizonRuler(QQuickItem *parent = nullptr)
+        : QQuickPaintedItem{parent}
+    {
+    }
+
+    void paint(QPainter* p) override
+    {
+        p->setPen(QColor(255, 0, 0));
+        p->drawRect(QRect(0, 0, width() - 1, height() - 1));
+        int col_left = 32;
+        int interval = 56;
+        int i;
+        int x, y;
+        const QString col[] = {"a", "b", "c", "d", "e", "f", "g", "h", "i"};
+        for(i = 0; i < 9; i++)
+        {
+            x = col_left + i * interval;
+            y = height() / 2 + 2;
+            p->drawText(QPoint(x, y), col[i]);
+        }
+    }
+};
 
 class Board : public QQuickPaintedItem
 {

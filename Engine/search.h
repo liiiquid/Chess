@@ -23,9 +23,6 @@ public:
     int go();
     void reset();
 
-public:
-    void printNodeInfor();
-
 private:
 
     int AlphaBeta(int depth, int alpha, int beta, int* wpvline);
@@ -41,6 +38,9 @@ private:
     void clearHistory(){
         memset(history, 0, sizeof(history));
     }
+
+private:
+    void CheckTimeOut();
 
 public:
     Position* pos;
@@ -63,6 +63,10 @@ public:
     union{
         int _depth; int _limitTime; int _maxNode;
     };
+
+private:
+    qint64 _maxLimitTime;
+    qint64 _beginTime;
 };
 
 #endif // SEARCH_H

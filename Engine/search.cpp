@@ -1,4 +1,6 @@
 ﻿#include "search.h"
+
+#include <QDateTime>
 int Search::go()
 {
 
@@ -6,48 +8,28 @@ int Search::go()
 
     reset();
 
-    allNode = 0;
-    maxDepth = 0;
-    pvline[0] = 0;
-    pos->distance = 0;
-    tt->collideCount = 0;
-    tt->recordCount = 0;
-    tt->probeCount = 0;
-
     pos->preEvaluate();
 
     if(type == Depth)
     {
 
-
         qDebug () << "mode: depth, depth:" << _depth;
         qDebug() << "current side:" << ( pos->side == 0 ? "red" : "black");
 
-
         int val = 0;
-
-        //val = AlphaBeta(_depth, -MATE_VALUE, MATE_VALUE, pvline);
 
         for(int i = 1; i <= _depth; i++)
         {
             val = AlphaBeta(i, -MATE_VALUE, MATE_VALUE, pvline);
-
-            // if(val >= WIN_VALUE || val <= -WIN_VALUE)
-            // {
-            //     qDebug() << "aborting depth:" << i << "val:"<<val;
-            //     break;
-            // }
         }
 
         if(val == MATE_VALUE)
         {
             qDebug() << ( pos->side == 0 ? "red win" :"black win");
-            printNodeInfor();
             return 0;
         }else if(val == -MATE_VALUE)
         {
             qDebug() << ( pos->side == 0 ? "red resign" :"black resign");
-            printNodeInfor();
             return 0x00ffff;
         }
 
@@ -71,11 +53,15 @@ void Search::reset()
     clearKiller();
     tt->clear();
 
-}
+    allNode = 0;
+    maxDepth = 0;
+    pvline[0] = 0;
 
-void Search::printNodeInfor()
-{
-    qDebug() << QString("AverageNode: %1, TotalNode:%2, TotalSteps:%3").arg(totalNode / pos->steps).arg(totalNode).arg(pos->steps);
+    pos->distance = 0;
+
+    _beginTime = QDateTime::currentSecsSinceEpoch();
+    _maxLimitTime = 90;
+
 }
 
 
@@ -133,6 +119,8 @@ int Search::AlphaBeta(int depth, int alpha, int beta,int* wpvline)
         mvHash = pvline[0];
     }
 
+    CheckTimeOut();
+
     allNode++;
     vlBest = -MATE_VALUE;
     mvBest = 0;
@@ -169,6 +157,7 @@ int Search::AlphaBeta(int depth, int alpha, int beta,int* wpvline)
                 {
                     alpha = val;
                     mvBest = mv;
+                    AppendPVLine(wpvline, mvBest, pvline);
                 }
             }
         }
@@ -186,8 +175,6 @@ int Search::AlphaBeta(int depth, int alpha, int beta,int* wpvline)
         {
             setHeuristic(mvBest, depth);
         }
-
-        AppendPVLine(wpvline, mvBest, pvline);
         return vlBest;
     }
 
@@ -233,7 +220,7 @@ int Search::NullWindow(int depth, int beta, bool bNoNull)
         {
             if( pos->nullSafe() )
             {
-                tt->record(*pos, val, 0, qMax(depth, NULL_DEPTH));
+                tt->record(*pos, val, 0, qMax(depth, NULL_DEPTH + 1));
                 return val;
             }else if( NullWindow(depth - NULL_DEPTH, beta, NO_NULL) >= beta )
             {
@@ -242,6 +229,8 @@ int Search::NullWindow(int depth, int beta, bool bNoNull)
             }
         }
     }
+
+    CheckTimeOut();
 
     allNode++;
 
@@ -306,6 +295,8 @@ int Search::Quiescence(int alpha, int beta)
     {
         return pos->evaluate(alpha, beta);
     }
+
+    CheckTimeOut();
 
     allNode++;
 
@@ -382,6 +373,11 @@ void Search::setHeuristic(int mv, int depth)
         killer[di][1] = killer[di][0];
         killer[di][0] = mv;
     }
+}
+
+void Search::CheckTimeOut()
+{
+    Q_ASSERT( (QDateTime::currentSecsSinceEpoch() - _beginTime) <= _maxLimitTime);
 }
 
 

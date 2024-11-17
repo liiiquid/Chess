@@ -136,7 +136,7 @@ void ServerEntry::handleCmd(const QString &cmd)
         // 作为先手时, steps = 0, 2, 4, ..., 2n
         // 作为后手时, steps = 1, 3, 5, ..., 2n + 1.
         // n从0开始,当n=0时,对应steps=0,此时为AI执行该的第一步, 所以为 (2n / 2) + 1 = (2n + 1 ) / 2 + 1, 整数之除法
-        qDebug() << "AverageNode:" << (search->totalNode / (pos.steps / 2 + 1))<<"TotalNode:"<<search->totalNode<<"CurrentCount:"<<(pos.steps / 2 + 1);
+        qDebug() << "AverageNode:" << search->averageNode <<"TotalNode:"<<search->totalNode<<"CurrentCount:"<<(pos.steps / 2 + 1);
         break;
     }
     case stop:
